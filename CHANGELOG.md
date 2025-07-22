@@ -7,9 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - Initial (Private) Release
+
 ### Added
+- Initial release of SSL Test Portal
+- Web-based interface for SSL/TLS security testing
+- Integration with testssl.sh for comprehensive scanning
+- Real-time progress tracking during scans
+- Historical scan results storage
+- Expandable cipher suite details
+- Support for all testssl.sh grades including A-F, +/- modifiers, M, and T
 - Scan ID display in recent scans list for easier tracking and sharing
-- Support for testssl.sh's T (Trust issues) grade with proper styling
+- Certificate expiration warnings with color coding (red/yellow/green)
+- Docker Compose deployment
+- PostgreSQL database for persistence
+- Redis for job queuing
+- Celery workers for background processing
+- RESTful API with OpenAPI documentation (Swagger UI at /docs)
+- Responsive web UI
+- Data cleanup utilities
+- Debug utilities
 - Secure database password prompting in deployment scripts
 - Docker init system for automatic zombie process cleanup
 - Password strength requirements (minimum 12 characters)
@@ -34,6 +51,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resolved Celery process spawning too many workers on high-CPU systems
 
 ### Security
+- Input validation for all user inputs
+- Protection against private IP scanning
+- No direct command execution
+- Secure containerized environment
 - Deployment scripts now enforce secure database passwords
 - Removed ability to deploy with default "changeme" passwords
 - Added password confirmation to prevent typos
@@ -45,31 +66,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented process groups for reliable cleanup of child processes
 - Added `init: true` to docker-compose.yml for proper PID 1 handling
 - Fixed frontend Dockerfile permissions with chmod/chown
-
-## [1.0.0] - Initial Release
-
-### Added
-- Initial release of SSL Test Portal
-- Web-based interface for SSL/TLS security testing
-- Integration with testssl.sh for comprehensive scanning
-- Real-time progress tracking during scans
-- Historical scan results storage
-- Expandable cipher suite details
-- Support for all testssl.sh grades including A-F, +/- modifiers, and M
-- Docker Compose deployment
-- PostgreSQL database for persistence
-- Redis for job queuing
-- Celery workers for background processing
-- RESTful API with OpenAPI documentation
-- Responsive web UI
-- Data cleanup utilities
-- Debug utilities
-
-### Security
-- Input validation for all user inputs
-- Protection against private IP scanning
-- No direct command execution
-- Secure containerized environment
 
 ### Attribution
 - Uses testssl.sh (https://github.com/testssl/testssl.sh) for SSL/TLS testing
