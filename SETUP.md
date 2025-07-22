@@ -1,4 +1,4 @@
-# SSL Test Portal - Setup Guide
+# TestSSL Web Portal - Setup Guide
 
 This guide provides detailed instructions for setting up the SSL Test Portal in various environments.
 
@@ -14,8 +14,8 @@ This guide provides detailed instructions for setting up the SSL Test Portal in 
 
 1. **Clone the repository**
    ```bash
-   git clone [your-repo-url]
-   cd [repo-name]
+   git clone https://github.com/jphoke/testssl-web-portal
+   cd testssl-web-portal
    ```
 
 2. **Run the deployment script**
@@ -305,4 +305,4 @@ EOF
 For issues, please check:
 1. The logs: `./debug.sh`
 2. The documentation: README.md, CLAUDE.md
-3. GitHub issues: [your-repo-url]/issues
+3. GitHub issues: https://github.com/jphoke/testssl-web-portal/issues

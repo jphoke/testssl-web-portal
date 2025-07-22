@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the SSL Test Portal will be documented in this file.
+All notable changes to the TestSSL Web Portal will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - Initial (Private) Release
 
 ### Added
-- Initial release of SSL Test Portal
+- Initial release of TestSSL Web Portal
 - Web-based interface for SSL/TLS security testing
 - Integration with testssl.sh for comprehensive scanning
 - Real-time progress tracking during scans
