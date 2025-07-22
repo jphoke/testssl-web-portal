@@ -1,0 +1,44 @@
+##Changes to work through
+- Critical Fixes
+    - ~~Fix issues with how worker.py calls testssh.sh as it does not clean up bash processes, leading to zombie processes on linux and could cause DOS~~ ✓
+    - ~~Fix grading. Use the grades from testssl.sh (A+, A, A-, B - F, M, T) if possible. Properly colorcode the output of grades on UI~~ ✓
+    - ~~Fix coloring of testssl failures (use of SSLv2/3, TLS1.0, 1.1 should be red for failures)~~ ✓
+    - ~~Fix coloring of obsoleted ciphers offered (should show as failure)~~ ✓
+    - ~~Fix nginx permission issues in frontend container~~ ✓
+    - ~~Fix Celery spawning too many worker processes on high-CPU systems~~ ✓
+    - ~~Fix zombie bash processes with Docker init system~~ ✓
+    - ~~Database Security: Enforce strong passwords in deployment scripts~~ ✓
+    - Add timeout handling for stuck scans
+    - Ensure proper error messages when testssl.sh fails
+    - **Input Validation**: Strengthen host validation to block private IPs (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), localhost, and validate hostname format
+    - **Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh
+    - **Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring
+- Security Improvements (Moderate Risk)
+    - Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests
+    - **Information Disclosure**: Replace detailed error messages with generic ones for users, log detailed errors server-side only
+    - **Security Headers**: Add X-Frame-Options, X-Content-Type-Options, Content-Security-Policy headers
+    - **Session Management**: Implement proper session handling with secure cookies and CSRF protection
+- Performance Improvements
+    - Investigate if the speed of the testssl.sh runs can be improved
+    - Add concurrent scan limits to prevent resource exhaustion
+    - Implement rate limiting to prevent DoS attacks:
+        - Nginx rate limiting: 2 scans/minute per IP for POST /api/scans
+        - Status endpoint: 60 requests/minute per IP for polling
+        - General API: 120 requests/minute per IP
+        - Consider optimizing frontend polling intervals (currently 2s constant)
+- Code Quality/Refactoring
+    - Add comprehensive logging
+    - Unit tests for critical functions
+    - Input validation improvements
+- Feature Enhancements
+    - ~~Add scanID from database to the output of recent scans~~ ✓
+    - Add Authentication options (MS EntraID, MS Active Directory/LDAP, others?) as an optional configuration
+    - Add other protocols to test TLS on (STARTTLS options from testssl.sh)
+    - Export functionality (PDF/CSV reports)
+    - Scheduled/recurring scans
+    - API endpoint for programmatic access
+    - Email notifications for completed scans
+    - Scan comparison (before/after)
+    - WebSocket support for real-time scan updates (instead of polling)
+    - Dark mode theme support
+    - Add ability to test other TLS implementations supported by testssl.sh using STARTTLS, etc.

@@ -1,0 +1,75 @@
+# Changelog
+
+All notable changes to the SSL Test Portal will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Scan ID display in recent scans list for easier tracking and sharing
+- Support for testssl.sh's T (Trust issues) grade with proper styling
+- Secure database password prompting in deployment scripts
+- Docker init system for automatic zombie process cleanup
+- Password strength requirements (minimum 12 characters)
+
+### Changed
+- Improved cipher strength classification with proper color coding:
+  - Green (✅) for strong/modern ciphers
+  - Yellow (⚠️) for medium/questionable ciphers
+  - Red (❌) for weak/obsolete ciphers
+- Enhanced cipher detection to identify obsolete algorithms (3DES, RC4, MD5, etc.)
+- Ciphers on deprecated protocols (TLS 1.0/1.1) now marked as weak
+- Limited Celery worker concurrency to 2 (from default CPU count)
+- Updated deployment scripts to prevent use of default passwords
+
+### Fixed
+- Fixed zombie process issue by implementing proper process tree management with psutil
+- Fixed grade extraction to use testssl.sh native grades (A+, A, A-, B-F, M, T)
+- Fixed subprocess handling to prevent lingering bash processes on Linux
+- Added proper cleanup of temporary JSON files
+- Improved timeout handling for stuck scans
+- Fixed nginx permission issues in frontend container
+- Resolved Celery process spawning too many workers on high-CPU systems
+
+### Security
+- Deployment scripts now enforce secure database passwords
+- Removed ability to deploy with default "changeme" passwords
+- Added password confirmation to prevent typos
+- Frontend files properly secured with correct permissions
+
+### Technical
+- Added psutil dependency for process management
+- Replaced subprocess.run() with Popen() for better process control
+- Implemented process groups for reliable cleanup of child processes
+- Added `init: true` to docker-compose.yml for proper PID 1 handling
+- Fixed frontend Dockerfile permissions with chmod/chown
+
+## [1.0.0] - Initial Release
+
+### Added
+- Initial release of SSL Test Portal
+- Web-based interface for SSL/TLS security testing
+- Integration with testssl.sh for comprehensive scanning
+- Real-time progress tracking during scans
+- Historical scan results storage
+- Expandable cipher suite details
+- Support for all testssl.sh grades including A-F, +/- modifiers, and M
+- Docker Compose deployment
+- PostgreSQL database for persistence
+- Redis for job queuing
+- Celery workers for background processing
+- RESTful API with OpenAPI documentation
+- Responsive web UI
+- Data cleanup utilities
+- Debug utilities
+
+### Security
+- Input validation for all user inputs
+- Protection against private IP scanning
+- No direct command execution
+- Secure containerized environment
+
+### Attribution
+- Uses testssl.sh (https://github.com/testssl/testssl.sh) for SSL/TLS testing

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL Test Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 SSL/TLS Test Portal</h1>
+            <p>Test the security of any SSL/TLS implementation</p>
+        </header>
+
+        <main>
+            <!-- Scan Form -->
+            <div class="card">
+                <h2>New Scan</h2>
+                <form id="scanForm">
+                    <div class="form-group">
+                        <label for="host">Hostname or IP Address:</label>
+                        <input type="text" id="host" name="host" placeholder="example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="port">Port:</label>
+                        <input type="number" id="port" name="port" value="443" min="1" max="65535" required>
+                    </div>
+                    <button type="submit" id="scanButton">Start Scan</button>
+                </form>
+            </div>
+
+            <!-- Current Scan Status -->
+            <div id="scanStatus" class="card hidden">
+                <h2>Scan Progress</h2>
+                <div class="progress-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+                <p id="statusText">Initializing scan...</p>
+            </div>
+
+            <!-- Scan Results -->
+            <div id="scanResults" class="card hidden">
+                <h2>Scan Results</h2>
+                <div id="resultsContent"></div>
+            </div>
+
+            <!-- Recent Scans -->
+            <div class="card">
+                <h2>Recent Scans</h2>
+                <div id="recentScans">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by <a href="https://github.com/testssl/testssl.sh">testssl.sh</a> | <a href="https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide">SSL Server Raiting Information</a> | </a>SSL Test Portal v1.0</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

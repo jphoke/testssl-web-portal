@@ -1,0 +1,284 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #7f8c8d;
+    font-size: 1.2em;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none;
+}
+
+.progress-container {
+    background-color: #ecf0f1;
+    border-radius: 4px;
+    height: 30px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: #3498db;
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.scan-item {
+    padding: 15px;
+    border-bottom: 1px solid #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.scan-item:hover {
+    background-color: #f8f9fa;
+}
+
+.scan-item:last-child {
+    border-bottom: none;
+}
+
+.scan-info h3 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.scan-info p {
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+/* Results display */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.results-section {
+    margin: 30px 0;
+}
+
+.results-section h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.result-item {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-left: 4px solid #3498db;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.result-item:hover {
+    transform: translateX(2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Grade styling */
+.grade {
+    font-size: 2.5em;
+    font-weight: bold;
+    padding: 15px 25px;
+    border-radius: 8px;
+    background-color: #ecf0f1;
+    display: inline-block;
+}
+
+.grade-A, .grade-A\+, .grade-A\- { color: #27ae60; background-color: #d5f4e6; }
+.grade-B, .grade-B\+, .grade-B\- { color: #f39c12; background-color: #fef5e7; }
+.grade-C, .grade-C\+, .grade-C\- { color: #e67e22; background-color: #fdebd0; }
+.grade-D, .grade-D\+, .grade-D\- { color: #e74c3c; background-color: #fadbd8; }
+.grade-F, .grade-F\+, .grade-F\- { color: #c0392b; background-color: #f5b7b1; }
+.grade-M { color: #9b59b6; background-color: #ebdef0; }
+.grade-T { color: #34495e; background-color: #ecf0f1; }
+
+/* Status badges */
+.status {
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.status-completed { 
+    background-color: #d5f4e6; 
+    color: #27ae60; 
+}
+
+.status-running { 
+    background-color: #fef5e7; 
+    color: #f39c12; 
+}
+
+.status-queued { 
+    background-color: #ebf5fb; 
+    color: #3498db; 
+}
+
+.status-error { 
+    background-color: #fadbd8; 
+    color: #e74c3c; 
+}
+
+/* Protocol specific styling */
+.protocol-supported {
+    border-left-color: #27ae60;
+    background-color: #d5f4e6;
+}
+
+.protocol-not-supported {
+    border-left-color: #95a5a6;
+    background-color: #ecf0f1;
+}
+
+.protocol-modern {
+    background-color: #d5f4e6;
+    border-left-color: #27ae60;
+}
+
+/* Vulnerability styling */
+.vulnerability {
+    border-left-color: #e74c3c;
+    background-color: #fadbd8;
+}
+
+.safe {
+    border-left-color: #27ae60;
+    background-color: #d5f4e6;
+}
+
+.medium-strength {
+    border-left-color: #f39c12;
+    background-color: #fef5e7;
+}
+
+.warning {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.cve {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.finding-detail {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.cipher-warning {
+    background-color: #fef5e7;
+    color: #f39c12;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #7f8c8d;
+}

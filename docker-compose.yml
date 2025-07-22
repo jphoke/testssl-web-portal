@@ -1,0 +1,81 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ssltestportal
+      POSTGRES_USER: ssluser
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ssluser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and queues
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Main application API
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://ssluser:${DB_PASSWORD:-changeme}@postgres:5432/ssltestportal
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-here}
+      TESTSSL_PATH: /opt/testssl.sh/testssl.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./results:/app/results
+
+  # Celery worker for background tasks
+  worker:
+    build: .
+    init: true
+    command: celery -A worker worker --loglevel=info --concurrency=2
+    environment:
+      DATABASE_URL: postgresql://ssluser:${DB_PASSWORD:-changeme}@postgres:5432/ssltestportal
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      TESTSSL_PATH: /opt/testssl.sh/testssl.sh
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./results:/app/results
+
+  # Frontend web server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - app
+    environment:
+      - API_URL=http://app:8000
+
+volumes:
+  postgres_data:
+  redis_data:
