@@ -1,4 +1,4 @@
-# SSL Test Portal
+# TestSSL Web Portal
 
 A modern, secure SSL/TLS testing portal built with FastAPI, PostgreSQL, Redis, and Celery. This application provides comprehensive SSL/TLS security assessment using testssl.sh.
 
@@ -24,8 +24,8 @@ A modern, secure SSL/TLS testing portal built with FastAPI, PostgreSQL, Redis, a
 
 1. **Clone the repository and navigate to the project**:
    ```bash
-   git clone <repository-url>
-   cd testssl-new-web
+   git clone https://github.com/jphoke/testssl-web-portal
+   cd testssl-web-portal
    ```
 
 2. **Run the clean deployment script**:
