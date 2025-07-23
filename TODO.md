@@ -9,6 +9,7 @@
     - ~~Fix zombie bash processes with Docker init system~~ ✓
     - ~~Database Security: Enforce strong passwords in deployment scripts~~ ✓
     - Add timeout handling for stuck scans
+    - Add logic to fail test when the scan fails due to inability to reach host
     - Ensure proper error messages when testssl.sh fails
     - **Input Validation**: Strengthen host validation to block private IPs (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), localhost, and validate hostname format
     - **Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh
