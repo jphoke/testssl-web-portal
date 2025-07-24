@@ -2,6 +2,8 @@
 
 A modern, secure SSL/TLS testing portal built with FastAPI, PostgreSQL, Redis, and Celery. This application provides comprehensive SSL/TLS security assessment using testssl.sh.
 
+This project started out as a way to scracth an itch and try out Anthropic's Claude Code. I had *zero* expectation that anything good would come of it, then it took on a life of its own. This project builds on foundations set by other, now abandoned front ends to the [testssl.sh]Scripts (https://github.com/testssl/testssl.sh). Currently working but will be getting a number of changes and improvements as I dig into it more, and as time allows.
+
 ## Features
 
 - ✅ **Comprehensive SSL/TLS Testing**: Tests protocols, ciphers, vulnerabilities, and certificate details
