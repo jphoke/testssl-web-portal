@@ -59,3 +59,82 @@ coverage.xml
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.history/              # VSCode local history
+*.vsix                 # VSCode extension packages
+
+# Claude Code
+.claude/               # Claude Code workspace files
+.anthropic/            # Anthropic CLI configs
+
+# Git
+*.orig                 # Git merge conflict files
+*.rej                  # Git patch reject files
+
+# OS
+Thumbs.db             # Windows
+.Spotlight-V100       # macOS
+.Trashes              # macOS
+
+# Logs
+logs/
+*.log
+
+# Results
+results/*.json
+
+# Database
+*.db
+*.sqlite3
+
+# Docker volumes
+postgres-data/
+redis-data/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.sass-cache/          # Sass cache
+node_modules/         # If you use any Node.js tools
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
