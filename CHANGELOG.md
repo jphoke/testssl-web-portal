@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Database schema updated with new comment column
   - API endpoints updated to handle comments in all relevant operations
 
+### Security
+- Improved error handling to prevent information disclosure
+  - Internal exceptions now show generic user-friendly messages with reference IDs
+  - Detailed error information logged server-side only for debugging
+  - Prevents exposure of file paths, stack traces, and system configuration details
+
 ## [1.0.1] - 2025-07-25
 
 ### Fixed

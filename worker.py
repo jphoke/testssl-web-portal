@@ -10,6 +10,8 @@ import psutil
 from datetime import datetime
 from app import Scan  # Import the model
 import sys
+import traceback
+import uuid
 
 # Celery setup
 celery_app = Celery('worker', broker=os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0"))
@@ -274,10 +276,18 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
             except:
                 pass
     except Exception as e:
+        # Generate a unique error reference ID
+        error_id = str(uuid.uuid4())[:8]
+        
+        # Log detailed error information server-side
+        print(f"Internal scan error {error_id}: {str(e)}")
+        print(f"Full traceback:\n{traceback.format_exc()}")
+        
+        # Store generic user-friendly message with reference ID
         scan.status = "error"
-        scan.error = str(e)
+        scan.error = f"An internal error occurred during the scan (ref: {error_id}). Please try again or contact support if the issue persists."
         db.commit()
-        print(f"Scan error: {str(e)}")
+        
         # Clean up any remaining files
         if 'json_output' in locals() and os.path.exists(json_output):
             try:

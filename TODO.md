@@ -15,7 +15,7 @@
     - **Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring
 - Security Improvements (Moderate Risk)
     - Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests
-    - **Information Disclosure**: Replace detailed error messages with generic ones for users, log detailed errors server-side only
+    - ~~**Information Disclosure**: Replace detailed error messages with generic ones for users, log detailed errors server-side only~~ ✓
     - **Security Headers**: Add X-Frame-Options, X-Content-Type-Options, Content-Security-Policy headers
     - **Session Management**: Implement proper session handling with secure cookies and CSRF protection
 - Performance Improvements
