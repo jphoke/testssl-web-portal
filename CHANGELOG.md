@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Comments feature for SSL scans
+  - Optional comment field (0-100 characters) on scan submission form
+  - Comments displayed in scan results and recent scans list
+  - Server-side validation and sanitization for security
+  - Client-side HTML escaping to prevent XSS
+  - Database schema updated with new comment column
+  - API endpoints updated to handle comments in all relevant operations
+
 ## [1.0.1] - 2025-07-25
 
 ### Fixed

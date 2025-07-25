@@ -5,6 +5,16 @@ const API_URL = '/api';
 let currentScanId = null;
 let statusCheckInterval = null;
 
+// Utility function to escape HTML
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // DOM elements
 const scanForm = document.getElementById('scanForm');
 const scanButton = document.getElementById('scanButton');
@@ -26,18 +36,24 @@ scanForm.addEventListener('submit', async (e) => {
     
     const host = document.getElementById('host').value;
     const port = document.getElementById('port').value;
+    const comment = document.getElementById('comment').value;
     
     // Disable form
     scanButton.disabled = true;
     scanButton.textContent = 'Starting scan...';
     
     try {
+        const requestBody = { host, port: parseInt(port) };
+        if (comment && comment.trim()) {
+            requestBody.comment = comment.trim();
+        }
+        
         const response = await fetch(`${API_URL}/scans`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ host, port: parseInt(port) }),
+            body: JSON.stringify(requestBody),
         });
         
         if (!response.ok) {
@@ -151,6 +167,18 @@ function displayResults(data) {
             <div class="grade grade-${data.grade}">${data.grade || 'N/A'}</div>
         </div>
     `;
+    
+    // Add comment if present
+    if (data.comment) {
+        html += `
+            <div class="results-section">
+                <h3>📝 Comment</h3>
+                <div class="result-item">
+                    ${escapeHtml(data.comment)}
+                </div>
+            </div>
+        `;
+    }
     
     // Protocols
     if (data.results.protocols && Object.keys(data.results.protocols).length > 0) {
@@ -352,6 +380,7 @@ async function loadRecentScans() {
                     <div class="scan-info">
                         <h3>${scan.host}:${scan.port}</h3>
                         <p>${date} (UTC)</p>
+                        ${scan.comment ? `<p style="font-size: 0.9em; color: #7f8c8d; font-style: italic;">📝 ${escapeHtml(scan.comment)}</p>` : ''}
                         <p style="font-size: 0.8em; color: #95a5a6;">ScanID: ${scan.id}</p>
                         ${scan.status === 'error' && scan.error ? `<p style="font-size: 0.85em; color: #e74c3c; margin-top: 5px;">${scan.error}</p>` : ''}
                     </div>

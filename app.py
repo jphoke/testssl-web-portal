@@ -49,6 +49,7 @@ class Scan(Base):
     grade = Column(String, nullable=True)
     results = Column(Text, nullable=True)
     error = Column(Text, nullable=True)
+    comment = Column(String(100), nullable=True)
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -57,6 +58,7 @@ Base.metadata.create_all(bind=engine)
 class ScanRequest(BaseModel):
     host: str
     port: int = 443
+    comment: Optional[str] = None
     
     @validator('host')
     def validate_host(cls, v):
@@ -100,6 +102,25 @@ class ScanRequest(BaseModel):
         if not 1 <= v <= 65535:
             raise ValueError('Port must be between 1 and 65535')
         return v
+    
+    @validator('comment')
+    def validate_comment(cls, v):
+        if v is None:
+            return v
+        
+        # Strip whitespace
+        v = v.strip()
+        
+        # Check length
+        if len(v) > 100:
+            raise ValueError('Comment must be 100 characters or less')
+        
+        # Sanitize - remove any control characters
+        import string
+        allowed_chars = string.printable
+        v = ''.join(char for char in v if char in allowed_chars)
+        
+        return v
 
 class ScanResponse(BaseModel):
     id: str
@@ -110,6 +131,7 @@ class ScanResponse(BaseModel):
     completed_at: Optional[datetime] = None
     grade: Optional[str] = None
     error: Optional[str] = None
+    comment: Optional[str] = None
 
 # Dependency
 def get_db():
@@ -146,7 +168,8 @@ async def create_scan(scan_request: ScanRequest, background_tasks: BackgroundTas
             id=scan_id,
             host=scan_request.host,
             port=scan_request.port,
-            status="queued"
+            status="queued",
+            comment=scan_request.comment
         )
         db.add(db_scan)
         db.commit()
@@ -159,7 +182,8 @@ async def create_scan(scan_request: ScanRequest, background_tasks: BackgroundTas
             host=scan_request.host,
             port=scan_request.port,
             status="queued",
-            created_at=db_scan.created_at
+            created_at=db_scan.created_at,
+            comment=scan_request.comment
         )
     finally:
         db.close()
@@ -179,7 +203,8 @@ async def get_scan(scan_id: str):
             status=scan.status,
             created_at=scan.created_at,
             completed_at=scan.completed_at,
-            grade=scan.grade
+            grade=scan.grade,
+            comment=scan.comment
         )
     finally:
         db.close()
@@ -198,7 +223,8 @@ async def list_scans(skip: int = 0, limit: int = 100):
                 created_at=scan.created_at,
                 completed_at=scan.completed_at,
                 grade=scan.grade,
-                error=scan.error
+                error=scan.error,
+                comment=scan.comment
             )
             for scan in scans
         ]
@@ -238,7 +264,8 @@ async def get_scan_results(scan_id: str):
             "status": scan.status,
             "grade": scan.grade,
             "results": results,
-            "completed_at": scan.completed_at
+            "completed_at": scan.completed_at,
+            "comment": scan.comment
         }
     finally:
         db.close()

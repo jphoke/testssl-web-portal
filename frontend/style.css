@@ -57,6 +57,13 @@ label {
     color: #555;
 }
 
+.form-hint {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: #7f8c8d;
+}
+
 input[type="text"],
 input[type="number"] {
     width: 100%;
