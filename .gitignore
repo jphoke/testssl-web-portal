@@ -96,6 +96,7 @@ build/
 # Git
 *.orig                 # Git merge conflict files
 *.rej                  # Git patch reject files
+FETCH_HEAD            # If accidentally created in working dir
 
 # OS
 Thumbs.db             # Windows
