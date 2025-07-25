@@ -66,6 +66,19 @@ def kill_process_tree(pid):
 @celery_app.task(name='worker.run_ssl_scan')
 def run_ssl_scan(scan_id: str, host: str, port: int):
     """Run SSL scan using testssl.sh"""
+    import re
+    
+    # Additional validation as defense in depth
+    # Validate host contains only safe characters
+    if not re.match(r'^[a-zA-Z0-9.-]+$', host):
+        print(f"Invalid host format: {host}")
+        return
+    
+    # Validate port is in valid range
+    if not isinstance(port, int) or not 1 <= port <= 65535:
+        print(f"Invalid port: {port}")
+        return
+    
     db = SessionLocal()
     
     try:

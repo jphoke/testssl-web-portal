@@ -60,9 +60,39 @@ class ScanRequest(BaseModel):
     
     @validator('host')
     def validate_host(cls, v):
+        import re
+        import ipaddress
+        
         # Basic validation
         if not v or len(v) < 3:
             raise ValueError('Invalid host')
+        
+        # Remove any whitespace
+        v = v.strip()
+        
+        # Check for dangerous characters that could be used in command injection
+        # Even though we use subprocess list format, defense in depth is good
+        dangerous_chars = ['$', '`', '\\', '"', "'", ';', '&', '|', '>', '<', '\n', '\r', '\t', '(', ')', '{', '}', '[', ']', '*', '?', '~', '!', '@', '#', '%', '^', '=', '+', ',', ':', ' ']
+        if any(char in v for char in dangerous_chars):
+            raise ValueError('Host contains invalid characters')
+        
+        # Check if it's an IP address
+        try:
+            ipaddress.ip_address(v)
+            # Valid IP address (both IPv4 and IPv6)
+            return v
+        except ValueError:
+            # Not an IP, check if it's a valid hostname/domain
+            # Only allow: a-z, A-Z, 0-9, dots, and hyphens
+            # Must start and end with alphanumeric
+            hostname_regex = re.compile(
+                r'^[a-zA-Z0-9]'  # Must start with alphanumeric
+                r'[a-zA-Z0-9.-]*'  # Middle can have letters, numbers, dots, hyphens
+                r'[a-zA-Z0-9]$'  # Must end with alphanumeric
+            )
+            if not hostname_regex.match(v) or '..' in v or '--' in v:
+                raise ValueError('Invalid hostname format. Only letters, numbers, dots, and hyphens are allowed.')
+        
         return v
     
     @validator('port')

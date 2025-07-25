@@ -11,7 +11,7 @@
     - ~~Add timeout handling for stuck scans~~ ✓ (already implemented with 600s timeout)
     - ~~Add logic to fail test when the scan fails due to inability to reach host~~ ✓
     - ~~Ensure proper error messages when testssl.sh fails~~ ✓
-    - **Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh
+    - ~~**Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh~~ ✓
     - **Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring
 - Security Improvements (Moderate Risk)
     - Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests

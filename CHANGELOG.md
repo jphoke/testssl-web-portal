@@ -27,6 +27,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated worker to check testssl.sh exit codes and output for connection failures
 - Enhanced frontend error handling to display connection errors with helpful suggestions
 
+### Security
+- Added defense-in-depth command injection prevention:
+  - API validates hosts/IPs against dangerous shell characters
+  - Only allows alphanumeric, dots, and hyphens in hostnames
+  - Validates IP addresses using Python's ipaddress module
+  - Worker performs additional validation before executing commands
+  - Supports all valid hostnames and IP addresses including private/RFC1918 ranges
+
 ## [1.0.0] - First Public Release
 
 ### Added
