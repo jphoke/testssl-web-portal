@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - API is only accessed via nginx proxy (same origin)
   - No functionality impact since no cross-origin requests occur
 
-## [1.0.1] - 2025-07-25
+## [1.0.1] - 2025-07-25 (Unreleased internal testing only)
 
 ### Fixed
 - Fixed connection failure detection - scans against closed ports now properly show error status instead of incorrect "B" grade
