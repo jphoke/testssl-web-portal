@@ -8,9 +8,9 @@
     - ~~Fix Celery spawning too many worker processes on high-CPU systems~~ ✓
     - ~~Fix zombie bash processes with Docker init system~~ ✓
     - ~~Database Security: Enforce strong passwords in deployment scripts~~ ✓
-    - Add timeout handling for stuck scans
-    - Add logic to fail test when the scan fails due to inability to reach host
-    - Ensure proper error messages when testssl.sh fails
+    - ~~Add timeout handling for stuck scans~~ ✓ (already implemented with 600s timeout)
+    - ~~Add logic to fail test when the scan fails due to inability to reach host~~ ✓
+    - ~~Ensure proper error messages when testssl.sh fails~~ ✓
     - **Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh
     - **Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring
 - Security Improvements (Moderate Risk)
