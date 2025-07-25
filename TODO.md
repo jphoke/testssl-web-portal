@@ -44,4 +44,4 @@
     - Add ability to test other TLS implementations supported by testssl.sh using STARTTLS, etc.
     - Add logging of IP Address of client device requesting scan to database
     - ~~Add "Notes" field to capture notes if necessary, capture note to DB (short note limit < 100 characters) with input validations~~ ✓
-    - Add congigurable application overrides for TLS configurations that cause failure e.g.: use of TLS 1.0 is an auto-fail, etc.
+    - Add configurable application overrides for TLS configurations that cause failure e.g.: use of TLS 1.0 is an auto-fail, etc.
