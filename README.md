@@ -1,6 +1,8 @@
 # TestSSL Web Portal
-
-A modern web-based SSL/TLS testing portal built with FastAPI, PostgreSQL, Redis, and Celery. Provides comprehensive SSL/TLS security assessment using [testssl.sh](https://github.com/testssl/testssl.sh).
+![License](https://img.shields.io/badge/license-GPL%20v3-blue.svg)
+![Docker](https://img.shields.io/badge/docker-ready-brightgreen.svg)
+  
+🔒 Modern web portal for SSL/TLS security testing with testssl.sh - Features real-time scanning, grading, and configurable workers"
 
 ## Features
 
