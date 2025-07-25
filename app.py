@@ -10,9 +10,10 @@ from typing import Optional, List
 import redis
 import json
 from celery import Celery
+from version import __version__
 
 # Initialize FastAPI app
-app = FastAPI(title="TestSSL Web Portal", version="1.0.0")
+app = FastAPI(title="TestSSL Web Portal", version=__version__)
 
 # Database setup
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://ssluser:changeme@postgres:5432/ssltestportal")
@@ -134,7 +135,7 @@ def get_db():
 # API Endpoints
 @app.get("/")
 async def root():
-    return {"message": "TestSSL Web Portal API", "version": "1.0.0"}
+    return {"message": "TestSSL Web Portal API", "version": __version__}
 
 @app.get("/api/health")
 async def health():
