@@ -1,6 +1,6 @@
 # TestSSL Web Portal - Setup Guide
 
-This guide provides instructions for setting up the SSL Test Portal.
+This guide provides instructions for setting up the TestSSL Web Portal.
 
 ## Prerequisites
 

@@ -1,6 +1,6 @@
-# Contributing to SSL Test Portal
+# Contributing to TestSSL Web Portal
 
-Thank you for your interest in contributing to the SSL Test Portal! This document provides guidelines for contributing to the project.
+Thank you for your interest in contributing to the TestSSL Web Portal! This document provides guidelines for contributing to the project.
 
 ## Getting Started
 

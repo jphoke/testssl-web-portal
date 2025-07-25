@@ -1,11 +1,11 @@
 #!/bin/bash
-# Data cleanup script for SSL Test Portal
+# Data cleanup script for TestSSL Web Portal
 # This script removes historical scan data from the database
 # FOR ADMINISTRATIVE USE ONLY - NOT EXPOSED IN UI/API
 
 set -e
 
-echo "🧹 SSL Test Portal - Data Cleanup Script"
+echo "🧹 TestSSL Web Portal - Data Cleanup Script"
 echo "========================================"
 echo "⚠️  WARNING: This will permanently delete scan history!"
 echo ""

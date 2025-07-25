@@ -1,7 +1,7 @@
 #!/bin/bash
-# Debug script for SSL Test Portal
+# Debug script for TestSSL Web Portal
 
-echo "🔍 SSL Test Portal Debug Script"
+echo "🔍 TestSSL Web Portal Debug Script"
 echo "==============================="
 
 # Check if Docker Compose is available

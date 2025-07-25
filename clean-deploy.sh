@@ -3,7 +3,7 @@
 
 set -e
 
-echo "🧹 SSL Test Portal - Clean Deployment"
+echo "🧹 TestSSL Web Portal - Clean Deployment"
 echo "===================================="
 
 # Check for Docker

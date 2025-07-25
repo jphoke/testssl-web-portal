@@ -1,9 +1,9 @@
 #!/bin/bash
-# Deploy script for SSL Test Portal
+# Deploy script for TestSSL Web Portal
 
 set -e
 
-echo "🚀 SSL Test Portal - Deployment Script"
+echo "🚀 TestSSL Web Portal - Deployment Script"
 echo "====================================="
 
 # Check for Docker

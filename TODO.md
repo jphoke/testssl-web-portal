@@ -14,7 +14,7 @@
     - ~~**Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh~~ ✓
     - ~~**Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring~~ ✓ (Partially implemented: WORKER_CONCURRENCY and SCAN_TIMEOUT are configurable via .env. MAX_CONCURRENT_SCANS_PER_IP defined but needs app-level implementation)
 - Security Improvements (Moderate Risk)
-    - Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests
+    - ~~Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests~~ ✓
     - ~~**Information Disclosure**: Replace detailed error messages with generic ones for users, log detailed errors server-side only~~ ✓
     - ~~**Security Headers**: Add X-Frame-Options, X-Content-Type-Options, Content-Security-Policy headers~~ ✓ (Added to nginx.conf)
     - **Session Management**: Implement proper session handling with secure cookies and CSRF protection

@@ -36,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - X-Content-Type-Options: nosniff
   - X-XSS-Protection: 1; mode=block
   - Referrer-Policy: no-referrer-when-downgrade
+- Removed unnecessary CORS middleware
+  - Eliminated potential CSRF attack vector
+  - API is only accessed via nginx proxy (same origin)
+  - No functionality impact since no cross-origin requests occur
 
 ## [1.0.1] - 2025-07-25
 

@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks
-from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, Text, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
@@ -13,16 +12,7 @@ import json
 from celery import Celery
 
 # Initialize FastAPI app
-app = FastAPI(title="SSL Test Portal", version="1.0.0")
-
-# CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI(title="TestSSL Web Portal", version="1.0.0")
 
 # Database setup
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://ssluser:changeme@postgres:5432/ssltestportal")
@@ -144,7 +134,7 @@ def get_db():
 # API Endpoints
 @app.get("/")
 async def root():
-    return {"message": "SSL Test Portal API", "version": "1.0.0"}
+    return {"message": "TestSSL Web Portal API", "version": "1.0.0"}
 
 @app.get("/api/health")
 async def health():

@@ -1,4 +1,4 @@
-# SSL Test Portal - CLAUDE Documentation
+# TestSSL Web Portal - CLAUDE Documentation
 
 This file contains important information for Claude AI to understand and work with this codebase effectively.
 
