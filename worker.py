@@ -145,11 +145,12 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
             )
             
             # Wait for process with timeout
+            scan_timeout = int(os.getenv('SCAN_TIMEOUT', '300'))
             try:
-                stdout_data, _ = process.communicate(timeout=600)
+                stdout_data, _ = process.communicate(timeout=scan_timeout)
                 return_code = process.returncode
             except subprocess.TimeoutExpired:
-                print(f"Process timed out after 600 seconds, killing process tree...")
+                print(f"Process timed out after {scan_timeout} seconds, killing process tree...")
                 if os.name != 'nt':
                     # Unix: kill entire process group
                     os.killpg(os.getpgid(process.pid), signal.SIGTERM)
@@ -162,7 +163,7 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
                     stdout_data, _ = process.communicate(timeout=5)
                 except:
                     stdout_data = ""
-                raise subprocess.TimeoutExpired(cmd, 600, output=stdout_data)
+                raise subprocess.TimeoutExpired(cmd, scan_timeout, output=stdout_data)
                 
         finally:
             # Ensure process is terminated
@@ -266,8 +267,9 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
         redis_client.set(f"scan:{scan_id}:progress", "100", ex=3600)
         
     except subprocess.TimeoutExpired:
+        scan_timeout = int(os.getenv('SCAN_TIMEOUT', '300'))
         scan.status = "error"
-        scan.error = "Scan timeout after 600 seconds"
+        scan.error = f"Scan timeout after {scan_timeout} seconds"
         db.commit()
         # Clean up any remaining files
         if os.path.exists(json_output):

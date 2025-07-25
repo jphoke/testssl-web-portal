@@ -49,7 +49,7 @@ services:
   worker:
     build: .
     init: true
-    command: celery -A worker worker --loglevel=info --concurrency=2
+    command: celery -A worker worker --loglevel=info --concurrency=${WORKER_CONCURRENCY:-2}
     environment:
       DATABASE_URL: postgresql://ssluser:${DB_PASSWORD:-changeme}@postgres:5432/ssltestportal
       REDIS_URL: redis://redis:6379/0

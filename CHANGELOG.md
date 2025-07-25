@@ -15,12 +15,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Client-side HTML escaping to prevent XSS
   - Database schema updated with new comment column
   - API endpoints updated to handle comments in all relevant operations
+- Configurable resource limits via environment variables
+  - WORKER_CONCURRENCY: Control number of concurrent testssl.sh scans (default: 2)
+  - SCAN_TIMEOUT: Configurable timeout per scan in seconds (default: 300)
+  - MAX_CONCURRENT_SCANS_PER_IP: Define per-IP limits (default: 2, not yet enforced)
+  - MAX_SCANS_PER_HOUR: Rate limiting configuration (default: 0/unlimited, not yet enforced)
+  - Additional options for disk usage and auto-cleanup defined in .env.example
+
+### Changed
+- Default scan timeout reduced from 600 seconds (10 min) to 300 seconds (5 min)
+- Deployment scripts now display configuration options and instructions after completion
 
 ### Security
 - Improved error handling to prevent information disclosure
   - Internal exceptions now show generic user-friendly messages with reference IDs
   - Detailed error information logged server-side only for debugging
   - Prevents exposure of file paths, stack traces, and system configuration details
+- Added security headers to nginx configuration
+  - X-Frame-Options: SAMEORIGIN
+  - X-Content-Type-Options: nosniff
+  - X-XSS-Protection: 1; mode=block
+  - Referrer-Policy: no-referrer-when-downgrade
 
 ## [1.0.1] - 2025-07-25
 
