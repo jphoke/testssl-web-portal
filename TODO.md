@@ -42,3 +42,5 @@
     - WebSocket support for real-time scan updates (instead of polling)
     - Dark mode theme support
     - Add ability to test other TLS implementations supported by testssl.sh using STARTTLS, etc.
+    - Add logging of IP Address of client device requesting scan to database
+    - Add "Notes" field to capture notes if necessary, capture note to DB (short note limit < 100 characters) with input validations
