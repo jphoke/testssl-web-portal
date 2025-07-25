@@ -114,7 +114,7 @@ cmd = [
 
 ### API Endpoints (app.py)
 - `GET /api/health` - Health check with service status
-- `POST /api/scans` - Create new scan (validates host/port)
+- `POST /api/scans` - Create new scan (validates host/port/comment)
 - `GET /api/scans` - List recent scans with pagination
 - `GET /api/scans/{id}/status` - Real-time progress
 - `GET /api/scans/{id}/results` - Full scan results
@@ -130,7 +130,8 @@ CREATE TABLE scans (
     results JSONB,       -- Full testssl.sh output
     created_at TIMESTAMP,
     completed_at TIMESTAMP,
-    error TEXT
+    error TEXT,
+    comment VARCHAR(100) -- Optional user comment
 );
 ```
 
@@ -138,6 +139,7 @@ CREATE TABLE scans (
 1. **Input Validation**: 
    - Host: DNS/IP validation, no private IPs
    - Port: 1-65535 range
+   - Comment: 0-100 chars, sanitized (printable chars only)
 2. **No Command Injection**: Uses subprocess list args
 3. **Rate Limiting**: Prevents scan abuse (TODO)
 4. **Containerization**: Isolated environment
@@ -150,6 +152,9 @@ CREATE TABLE scans (
    - Limited Celery concurrency (2 workers)
    - Docker init system prevents zombie processes
    - Proper file permissions in containers
+8. **XSS Prevention**:
+   - HTML escaping for user comments in frontend
+   - Server-side sanitization of comment input
 
 ## Common Issues and Solutions
 

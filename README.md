@@ -85,15 +85,17 @@ If you prefer manual deployment or need to customize the process:
 
 1. Open the web UI at http://localhost:3000
 2. Enter a hostname (e.g., `example.com`) and port (default: 443)
-3. Click "Start Scan"
-4. Monitor progress in real-time
-5. View comprehensive results including:
+3. Optionally add a comment (up to 100 characters) to help identify the scan
+4. Click "Start Scan"
+5. Monitor progress in real-time
+6. View comprehensive results including:
    - Security grade (A+ to F)
    - Protocol support (SSL 2/3, TLS 1.0-1.3)
    - Cipher suites (click to expand for full details)
    - Vulnerabilities (BEAST, CRIME, POODLE, SWEET32, etc.)
    - Certificate information
    - Security headers
+   - Your comment (if provided)
 
 ### Viewing Previous Scans
 
@@ -204,11 +206,11 @@ Remove old scan data to manage disk space:
 ## API Endpoints
 
 - `GET /api/health` - Health check
-- `POST /api/scans` - Create new scan
-- `GET /api/scans` - List recent scans
+- `POST /api/scans` - Create new scan (accepts host, port, and optional comment)
+- `GET /api/scans` - List recent scans (includes comments)
 - `GET /api/scans/{scan_id}` - Get scan details
 - `GET /api/scans/{scan_id}/status` - Get scan status and progress
-- `GET /api/scans/{scan_id}/results` - Get scan results
+- `GET /api/scans/{scan_id}/results` - Get scan results (includes comment)
 
 Full API documentation with interactive testing available at http://localhost:8000/docs
 
@@ -216,6 +218,8 @@ Full API documentation with interactive testing available at http://localhost:80
 
 - Input validation for all user inputs
 - Hostname/IP validation (no private IPs)
+- Comment field sanitization (0-100 chars, printable characters only)
+- XSS prevention with HTML escaping
 - No direct command execution
 - Containerized environment isolation
 - Secure default configuration
