@@ -23,7 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Additional options for disk usage and auto-cleanup defined in .env.example
 
 ### Changed
-- Default scan timeout reduced from 600 seconds (10 min) to 300 seconds (5 min)
 - Deployment scripts now display configuration options and instructions after completion
 
 ### Security

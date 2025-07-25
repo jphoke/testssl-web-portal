@@ -145,7 +145,7 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
             )
             
             # Wait for process with timeout
-            scan_timeout = int(os.getenv('SCAN_TIMEOUT', '300'))
+            scan_timeout = int(os.getenv('SCAN_TIMEOUT', '600'))
             try:
                 stdout_data, _ = process.communicate(timeout=scan_timeout)
                 return_code = process.returncode
@@ -267,7 +267,7 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
         redis_client.set(f"scan:{scan_id}:progress", "100", ex=3600)
         
     except subprocess.TimeoutExpired:
-        scan_timeout = int(os.getenv('SCAN_TIMEOUT', '300'))
+        scan_timeout = int(os.getenv('SCAN_TIMEOUT', '600'))
         scan.status = "error"
         scan.error = f"Scan timeout after {scan_timeout} seconds"
         db.commit()

@@ -40,7 +40,7 @@ After deployment, you can customize settings in the `.env` file:
 ### Worker Settings
 ```bash
 WORKER_CONCURRENCY=2        # Number of concurrent scans (increase for internal use)
-SCAN_TIMEOUT=300           # Timeout per scan in seconds (default: 5 minutes)
+SCAN_TIMEOUT=600           # Timeout per scan in seconds (default: 10 minutes)
 ```
 
 ### Rate Limiting (defined but not yet enforced)
@@ -139,7 +139,7 @@ For high-traffic deployments:
 ```bash
 # Edit .env
 WORKER_CONCURRENCY=6    # Increase workers
-SCAN_TIMEOUT=180       # Reduce timeout for faster turnover
+SCAN_TIMEOUT=300       # Reduce timeout for faster turnover
 ```
 
 ### 3. HTTPS Configuration

@@ -41,7 +41,7 @@ Key settings in `.env` (created during deployment):
 
 ```bash
 WORKER_CONCURRENCY=2        # Number of concurrent scans
-SCAN_TIMEOUT=300           # Timeout per scan (seconds)
+SCAN_TIMEOUT=600           # Timeout per scan (seconds)
 MAX_CONCURRENT_SCANS_PER_IP=2    # Per-IP limits (not yet enforced)
 ```
 
