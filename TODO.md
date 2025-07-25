@@ -1,47 +1,105 @@
-##Changes to work through
-- Critical Fixes
-    - ~~Fix issues with how worker.py calls testssh.sh as it does not clean up bash processes, leading to zombie processes on linux and could cause DOS~~ ✓
-    - ~~Fix grading. Use the grades from testssl.sh (A+, A, A-, B - F, M, T) if possible. Properly colorcode the output of grades on UI~~ ✓
-    - ~~Fix coloring of testssl failures (use of SSLv2/3, TLS1.0, 1.1 should be red for failures)~~ ✓
-    - ~~Fix coloring of obsoleted ciphers offered (should show as failure)~~ ✓
-    - ~~Fix nginx permission issues in frontend container~~ ✓
-    - ~~Fix Celery spawning too many worker processes on high-CPU systems~~ ✓
-    - ~~Fix zombie bash processes with Docker init system~~ ✓
-    - ~~Database Security: Enforce strong passwords in deployment scripts~~ ✓
-    - ~~Add timeout handling for stuck scans~~ ✓ (already implemented with 600s timeout)
-    - ~~Add logic to fail test when the scan fails due to inability to reach host~~ ✓
-    - ~~Ensure proper error messages when testssl.sh fails~~ ✓
-    - ~~**Command Injection Prevention**: Add additional input sanitization for host:port before passing to testssl.sh~~ ✓
-    - ~~**Resource Limits**: Implement limits on concurrent scans per IP, reduce timeout from 600s to 120s, add disk quota monitoring~~ ✓ (Partially implemented: WORKER_CONCURRENCY and SCAN_TIMEOUT are configurable via .env. MAX_CONCURRENT_SCANS_PER_IP defined but needs app-level implementation)
-- Security Improvements (Moderate Risk)
-    - ~~Review CORS configuration - currently allows all origins (allow_origins=["*"]) which enables CSRF attacks. Should remove CORS middleware entirely since nginx proxy handles same-origin requests~~ ✓
-    - ~~**Information Disclosure**: Replace detailed error messages with generic ones for users, log detailed errors server-side only~~ ✓
-    - ~~**Security Headers**: Add X-Frame-Options, X-Content-Type-Options, Content-Security-Policy headers~~ ✓ (Added to nginx.conf)
-    - **Session Management**: Implement proper session handling with secure cookies and CSRF protection
-- Performance Improvements
-    - Investigate if the speed of the testssl.sh runs can be improved
-    - Add concurrent scan limits to prevent resource exhaustion
-    - Implement rate limiting to prevent DoS attacks:
-        - Nginx rate limiting: 2 scans/minute per IP for POST /api/scans
-        - Status endpoint: 60 requests/minute per IP for polling
-        - General API: 120 requests/minute per IP
-        - Consider optimizing frontend polling intervals (currently 2s constant)
-- Code Quality/Refactoring
-    - Add comprehensive logging
-    - Unit tests for critical functions
-    - Input validation improvements
-- Feature Enhancements
-    - ~~Add scanID from database to the output of recent scans~~ ✓
-    - Add Authentication options (MS EntraID, MS Active Directory/LDAP, others?) as an optional configuration
-    - Add other protocols to test TLS on (STARTTLS options from testssl.sh)
-    - Export functionality (PDF/CSV reports)
-    - Scheduled/recurring scans
-    - API endpoint for programmatic access
-    - Email notifications for completed scans
-    - Scan comparison (before/after)
-    - WebSocket support for real-time scan updates (instead of polling)
-    - Dark mode theme support
-    - Add ability to test other TLS implementations supported by testssl.sh using STARTTLS, etc.
-    - Add logging of IP Address of client device requesting scan to database
-    - ~~Add "Notes" field to capture notes if necessary, capture note to DB (short note limit < 100 characters) with input validations~~ ✓
-    - Add configurable application overrides for TLS configurations that cause failure e.g.: use of TLS 1.0 is an auto-fail, etc.
+# TODO
+
+## Next Priority Features
+- **Rate Limiting Enforcement**: Implement MAX_CONCURRENT_SCANS_PER_IP and MAX_SCANS_PER_HOUR at application level
+- **STARTTLS Protocol Support**: Add support for testing TLS on SMTP, IMAP, POP3, FTP, PostgreSQL, MySQL ports
+- **Export Functionality**: Generate PDF/CSV reports of scan results
+- **API Authentication**: Add optional OAuth2/API key authentication for programmatic access
+
+## Performance Enhancements
+- **Optimize testssl.sh Speed**: 
+  - Investigate --fast and --sneaky options
+  - Consider parallel cipher testing
+  - Cache DNS lookups
+- **Nginx Rate Limiting**: Implement at proxy level for better performance
+  - 2 scans/minute per IP for POST /api/scans
+  - 60 requests/minute for status polling
+  - 120 requests/minute general API
+- **WebSocket Support**: Replace polling with real-time updates
+- **Smart Polling**: Implement exponential backoff for frontend status checks
+
+## Enterprise Features
+- **Authentication Providers**: 
+  - LDAP/Active Directory integration
+  - SAML 2.0 support
+  - OAuth2 providers (Google, GitHub, Azure AD)
+- **Scheduled Scans**: Cron-like syntax for recurring scans
+- **Notifications**: 
+  - Email alerts on scan completion
+  - Webhook support for integrations
+  - Slack/Teams notifications
+- **Scan Comparison**: Side-by-side diff view of scan results
+- **Access Control**:
+  - IP allowlist/blocklist
+  - User roles and permissions
+  - Scan quotas per user/group
+- **Audit Logging**: 
+  - Track all API access with client IPs
+  - Scan history with user attribution
+  - Export audit logs
+
+## UI/UX Improvements
+- **Dark Mode**: Theme toggle with system preference detection
+- **Scan Templates**: Save and reuse common scan configurations
+- **Bulk Operations**: 
+  - Import CSV/JSON list of hosts to scan
+  - Batch operations UI
+  - Queue management interface
+- **Enhanced Results View**:
+  - Printable reports
+  - Shareable result links (with expiration)
+  - Result history graphs
+
+## Advanced Features
+- **Configurable Grading**: 
+  - Custom rules (e.g., TLS 1.0 = auto-fail)
+  - Organization-specific compliance profiles
+  - Industry standard templates (PCI-DSS, HIPAA)
+- **Integration APIs**:
+  - Prometheus metrics endpoint
+  - Grafana dashboard templates
+  - CI/CD pipeline integration
+- **Change Control Integrations**:
+  - ServiceNow integration for change requests
+  - Ivanti/Cherwell ticket creation
+  - BMC Remedy connector
+  - Auto-create change tickets for critical findings
+- **Issue Tracking Integrations**:
+  - Jira integration for security findings
+  - Auto-create issues for non-compliant configurations
+  - GitHub/GitLab issue creation
+  - Azure DevOps work items
+  - Bulk issue creation with finding details
+- **Multi-tenancy**: 
+  - Separate data per organization
+  - Custom branding options
+  - Usage analytics per tenant
+
+## Code Quality & DevOps
+- **Testing Suite**:
+  - Unit tests for validators and parsers
+  - Integration tests for API endpoints
+  - End-to-end tests with Playwright/Selenium
+- **Structured Logging**:
+  - JSON log format
+  - Log levels (DEBUG, INFO, WARN, ERROR)
+  - Log aggregation ready (ELK stack compatible)
+- **Documentation**:
+  - OpenAPI schema improvements
+  - Architecture decision records (ADRs)
+  - Deployment guides for K8s, AWS, Azure
+- **Performance**:
+  - Benchmark suite for load testing
+  - Database query optimization
+  - Redis caching strategy
+
+## Technical Debt
+- **Database Migrations**: Implement Alembic for schema version control
+- **Configuration Management**: Move all hardcoded values to environment variables
+- **Error Handling**: Consistent error response format across all endpoints
+- **Code Organization**: Split large files into modules (app.py → routes/, models/, services/)
+
+---
+
+## Completed ✓
+See [CHANGELOG.md](CHANGELOG.md) for completed features and fixes.
