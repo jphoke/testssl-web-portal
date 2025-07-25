@@ -22,6 +22,12 @@ This project started out as a way to scracth an itch and try out [Anthropic](htt
 - 2GB+ RAM available
 - 5GB+ disk space
 
+## Screenshots
+
+<img width="512" height="352" alt="Screenshot 2025-07-25 at 08 55 13" src="https://github.com/user-attachments/assets/76c3e84c-50fe-4a2e-99de-e3ff491e6928" />
+<img width="512" height="551" alt="Screenshot 2025-07-25 at 08 56 10" src="https://github.com/user-attachments/assets/ebd88b8f-d4ad-4816-8abe-d570282829ba" />
+<img width="512" height="542" alt="Screenshot 2025-07-25 at 09 09 05" src="https://github.com/user-attachments/assets/7e409274-b183-40f5-8d4f-e3f29e17954a" />
+
 ## Quick Start
 
 1. **Clone the repository and navigate to the project**:
