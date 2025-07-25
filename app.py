@@ -79,6 +79,7 @@ class ScanResponse(BaseModel):
     created_at: datetime
     completed_at: Optional[datetime] = None
     grade: Optional[str] = None
+    error: Optional[str] = None
 
 # Dependency
 def get_db():
@@ -166,7 +167,8 @@ async def list_scans(skip: int = 0, limit: int = 100):
                 status=scan.status,
                 created_at=scan.created_at,
                 completed_at=scan.completed_at,
-                grade=scan.grade
+                grade=scan.grade,
+                error=scan.error
             )
             for scan in scans
         ]
@@ -180,6 +182,16 @@ async def get_scan_results(scan_id: str):
         scan = db.query(Scan).filter(Scan.id == scan_id).first()
         if not scan:
             raise HTTPException(status_code=404, detail="Scan not found")
+        
+        if scan.status == "error":
+            return {
+                "id": scan.id,
+                "host": scan.host,
+                "port": scan.port,
+                "status": scan.status,
+                "error": scan.error,
+                "completed_at": scan.completed_at
+            }
         
         if scan.status != "completed":
             return {"status": scan.status, "message": "Scan not completed yet"}
@@ -208,6 +220,23 @@ async def get_scan_status(scan_id: str):
     progress = redis_client.get(f"scan:{scan_id}:progress")
     
     if status:
+        # Also check database for error info if status is error
+        if status == "error":
+            db = SessionLocal()
+            try:
+                scan = db.query(Scan).filter(Scan.id == scan_id).first()
+                if scan and scan.error:
+                    return {
+                        "id": scan_id,
+                        "status": status,
+                        "progress": int(progress) if progress else 0,
+                        "error": scan.error,
+                        "host": scan.host,
+                        "port": scan.port
+                    }
+            finally:
+                db.close()
+        
         return {
             "id": scan_id,
             "status": status,
@@ -221,11 +250,19 @@ async def get_scan_status(scan_id: str):
         if not scan:
             raise HTTPException(status_code=404, detail="Scan not found")
         
-        return {
+        response = {
             "id": scan_id,
             "status": scan.status,
-            "progress": 100 if scan.status == "completed" else 0
+            "progress": 100 if scan.status in ["completed", "error"] else 0
         }
+        
+        # Include error info if present
+        if scan.status == "error" and scan.error:
+            response["error"] = scan.error
+            response["host"] = scan.host
+            response["port"] = scan.port
+        
+        return response
     finally:
         db.close()
 

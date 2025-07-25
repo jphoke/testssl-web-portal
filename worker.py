@@ -116,6 +116,7 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
         # Execute scan with better process management
         process = None
         stdout_data = ""
+        return_code = None
         
         try:
             # Create new process group to ensure all children can be killed
@@ -170,6 +171,35 @@ def run_ssl_scan(scan_id: str, host: str, port: int):
         if len(stdout_data) > 0:
             # Save last 1000 chars to see if rating is there
             print(f"Stdout tail: ...{stdout_data[-1000:]}")
+        
+        # Check for connection failures
+        if return_code != 0 or "Fatal error: Can't connect to" in stdout_data or "Connection refused" in stdout_data:
+            error_msg = "Unable to connect to the target host"
+            if "Connection refused" in stdout_data:
+                error_msg = f"Connection refused at {host}:{port}. The target is not accepting connections on this port."
+            elif "Fatal error: Can't connect to" in stdout_data:
+                error_msg = f"Unable to connect to {host}:{port}. Please verify the host and port are correct and accessible."
+            elif "TCP connect problem" in stdout_data:
+                error_msg = f"TCP connection failed to {host}:{port}. The service may be down or blocked by a firewall."
+            
+            # Update database with error
+            scan.status = "error"
+            scan.error = error_msg
+            scan.completed_at = datetime.utcnow()
+            db.commit()
+            
+            # Update Redis
+            redis_client.set(f"scan:{scan_id}:status", "error", ex=3600)
+            redis_client.set(f"scan:{scan_id}:progress", "100", ex=3600)
+            
+            # Clean up JSON file if it exists
+            if os.path.exists(json_output):
+                try:
+                    os.remove(json_output)
+                except:
+                    pass
+            
+            return
         
         # Parse results
         results = parse_scan_results(json_output, stdout_data)

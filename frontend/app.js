@@ -88,8 +88,26 @@ async function checkScanStatus() {
                 loadScanResults();
                 break;
             case 'error':
-                statusText.textContent = 'Scan failed';
+                statusText.textContent = 'Scan failed: ' + (data.error || 'Unknown error');
                 clearInterval(statusCheckInterval);
+                // Show error in results area
+                scanStatus.classList.add('hidden');
+                scanResults.classList.remove('hidden');
+                resultsContent.innerHTML = `
+                    <div class="results-header">
+                        <h3>${data.host || 'Unknown'}:${data.port || 'Unknown'}</h3>
+                        <span class="status status-error">error</span>
+                    </div>
+                    <div class="results-section">
+                        <h3>❌ Scan Error</h3>
+                        <div class="result-item vulnerability">
+                            <strong>Error:</strong> ${data.error || 'Unknown error occurred during scan'}
+                        </div>
+                        <div class="result-item">
+                            <strong>Suggestion:</strong> Please verify that the host and port are correct and that the service is accessible.
+                        </div>
+                    </div>
+                `;
                 resetForm();
                 break;
         }
@@ -242,7 +260,7 @@ function displayResults(data) {
             }
         }
         
-        html += `<div class="result-item" style="cursor: pointer;" onclick="toggleCipherDetails()">
+        html += `<div class="result-item" style="cursor: pointer;" onclick="toggleCipherDetails(event)">
             <strong>Total Ciphers:</strong> ${cipherCount}
             ${weakCount > 0 ? `<span class="warning"> (${weakCount} weak ciphers detected)</span>` : ''}
             <span style="float: right; color: #3498db;">▼ Click to expand</span>
@@ -335,6 +353,7 @@ async function loadRecentScans() {
                         <h3>${scan.host}:${scan.port}</h3>
                         <p>${date} (UTC)</p>
                         <p style="font-size: 0.8em; color: #95a5a6;">ScanID: ${scan.id}</p>
+                        ${scan.status === 'error' && scan.error ? `<p style="font-size: 0.85em; color: #e74c3c; margin-top: 5px;">${scan.error}</p>` : ''}
                     </div>
                     <div>
                         ${scan.grade ? `<span class="grade grade-${scan.grade}">${scan.grade}</span>` : ''}
@@ -363,6 +382,25 @@ async function viewScan(scanId) {
             scanStatus.classList.add('hidden');
             scanResults.classList.remove('hidden');
             displayResults(data);
+        } else if (data.status === 'error') {
+            // Show error in results area
+            scanStatus.classList.add('hidden');
+            scanResults.classList.remove('hidden');
+            resultsContent.innerHTML = `
+                <div class="results-header">
+                    <h3>${data.host || 'Unknown'}:${data.port || 'Unknown'}</h3>
+                    <span class="status status-error">error</span>
+                </div>
+                <div class="results-section">
+                    <h3>❌ Scan Error</h3>
+                    <div class="result-item vulnerability">
+                        <strong>Error:</strong> ${data.error || 'Unknown error occurred during scan'}
+                    </div>
+                    <div class="result-item">
+                        <strong>Suggestion:</strong> Please verify that the host and port are correct and that the service is accessible.
+                    </div>
+                </div>
+            `;
         }
     } catch (error) {
         console.error('Error viewing scan:', error);
@@ -378,9 +416,9 @@ function resetForm() {
 }
 
 // Toggle cipher details visibility
-function toggleCipherDetails() {
+function toggleCipherDetails(e) {
     const cipherDetails = document.getElementById('cipherDetails');
-    const toggleText = event.target.querySelector('span[style*="float: right"]');
+    const toggleText = e.currentTarget.querySelector('span[style*="float: right"]');
     
     if (cipherDetails.classList.contains('hidden')) {
         cipherDetails.classList.remove('hidden');

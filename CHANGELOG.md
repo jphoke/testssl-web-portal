@@ -7,7 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - Initial (Private) Release
+## [1.0.1] - 2025-07-25
+
+### Fixed
+- Fixed connection failure detection - scans against closed ports now properly show error status instead of incorrect "B" grade
+- Fixed error message display in scan progress section to show actual connection failure reason
+- Fixed error message display in recent scans list to show detailed error below status badge
+- Fixed oversized heading text in error results display
+- Added proper error information to API responses (/api/scans and /api/scans/{id}/status endpoints)
+
+### Added
+- Added cache prevention headers to nginx configuration to prevent browser caching of JS/CSS/HTML files
+- Added comprehensive error messages for different connection failure scenarios:
+  - "Connection refused" - when target port is not accepting connections
+  - "Unable to connect" - when host/port is unreachable
+  - "TCP connect problem" - when blocked by firewall or network issues
+
+### Changed
+- Updated worker to check testssl.sh exit codes and output for connection failures
+- Enhanced frontend error handling to display connection errors with helpful suggestions
+
+## [1.0.0] - First Public Release
 
 ### Added
 - Initial release of TestSSL Web Portal
