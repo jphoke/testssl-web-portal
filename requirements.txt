@@ -2,7 +2,7 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 sqlalchemy==2.0.41
 psycopg2-binary==2.9.9
-redis==5.0.1
+redis==6.4.0
 celery==5.5.3
 pydantic==2.5.0
 pydantic-settings==2.1.0
